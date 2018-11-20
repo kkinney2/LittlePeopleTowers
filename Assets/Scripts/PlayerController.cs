@@ -7,8 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 10;
     public float jumpForce = 5;
-    public GameObject cameraTemp;
-    public Text winText;
+    //public Text winText;
 
     private Rigidbody rb;
     private Vector3 startCoord;
@@ -21,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         startCoord = transform.position;
-        winText.text = "";
+        //winText.text = "";
         health = 100;
     }
 
@@ -53,10 +52,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Move(float moveX,float moveY)
+    void Move(float moveX, float moveZ)
     {
-        Vector3 targetVelocity = new Vector3(moveX * 10f, moveY * 10f, rb.velocity.z);
+        Vector3 targetVelocity = new Vector3(moveX, 0.0f, moveZ);
+        targetVelocity = targetVelocity * speed;
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+        //rb.AddForce(targetVelocity * speed);
     }
 
     void Jump()
