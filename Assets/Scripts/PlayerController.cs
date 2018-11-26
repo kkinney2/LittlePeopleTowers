@@ -7,6 +7,10 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 10;
     public float jumpForce = 5;
+    public float angleMod = 20;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+    public GameObject moveTarget;
     //public Text winText;
 
     private Rigidbody rb;
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour
         {
             Application.Quit();
         }
+
     }
 
     void FixedUpdate()
@@ -45,6 +50,15 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1);
+        }
+        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1);
+        }
+
         //Fall Death/Respawn
         if (transform.position.y < -10)
         {
@@ -55,7 +69,7 @@ public class PlayerController : MonoBehaviour
     void Move(float moveX, float moveZ)
     {
         Vector3 targetVelocity = new Vector3(moveX, 0.0f, moveZ);
-        targetVelocity = targetVelocity * speed;
+        targetVelocity = moveTarget.transform.TransformVector(targetVelocity) * speed;
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
         //rb.AddForce(targetVelocity * speed);
     }
@@ -64,6 +78,8 @@ public class PlayerController : MonoBehaviour
     {
         rb.AddForce((Vector3.up * jumpForce), ForceMode.Impulse);
         isJumping = true;
+
+
     }
 
     private void OnCollisionEnter(Collision other)
