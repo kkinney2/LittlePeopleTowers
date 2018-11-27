@@ -418,6 +418,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: {fileID: 0}
+  towers:
+  - {fileID: 1687128585489718, guid: c077ac713ce7dc14e873de9999c13ab8, type: 2}
 --- !u!136 &136465455808369438
 CapsuleCollider:
   m_ObjectHideFlags: 1

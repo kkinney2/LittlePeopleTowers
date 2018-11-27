@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class TowerSpace : MonoBehaviour {
 
     public Text interactText;
+    public GameObject[] towers;
 
     private bool canInteract = false;
+    private bool canBuild = false;
     private Transform tempChild;
     private GameController gameController;
 
@@ -31,8 +33,28 @@ public class TowerSpace : MonoBehaviour {
         if (Input.GetKeyDown("e") && canInteract )
         {
             gameController.UpdateTowerListText();
+            canBuild = true;
         }
-	}
+        if (canBuild)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Instantiate(towers[0],this.transform.position, this.transform.rotation);
+                canBuild = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Instantiate(towers[1], this.transform.position, this.transform.rotation);
+                canBuild = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Instantiate(towers[2], this.transform.position, this.transform.rotation);
+                canBuild = false;
+            }
+        }
+    }
+
 
     public void ToggleUI()
     {
@@ -42,9 +64,10 @@ public class TowerSpace : MonoBehaviour {
         {
             tempChild.gameObject.SetActive(true);
         }
-        else
+        else if (!canInteract)
         {
             tempChild.gameObject.SetActive(false);
+            canBuild = false;
         }
     }
 }

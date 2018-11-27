@@ -7,19 +7,22 @@ public class GameController : MonoBehaviour {
 
     public Text townHealthText;
     public Text interactText;
-    public Text towerListText;
+    public Text[] towerTexts;
 
     private int townHealth = 100;
-    private string towerTextList;
     private bool isDispTowerList = false;
 
     // Use this for initialization
     void Start () {
-        interactText.text = "";
         townHealth = 100;
         UpdateTownHealth();
-        towerListText.text = "";
-        towerTextList = "1 - Tower1 /r/n 2 - Tower2 /r/n 3 - Tower3";
+        interactText.text = "";
+
+        for (int i = 0; i < towerTexts.Length; i++)
+        {
+            Text tempText = towerTexts[i];
+            tempText.gameObject.SetActive(false);
+        }
     }
 	
 	// Update is called once per frame
@@ -55,9 +58,20 @@ public class GameController : MonoBehaviour {
         isDispTowerList = !isDispTowerList;
         if (isDispTowerList)
         {
-            towerListText.text = towerTextList;
+            for(int i = 0; i < towerTexts.Length; i++)
+            {
+                Text tempText = towerTexts[i];
+                tempText.gameObject.SetActive(true);
+            }
         }
-        else towerListText.text = "";
 
+        if (!isDispTowerList)
+        {
+            for (int i = 0; i < towerTexts.Length; i++)
+            {
+                Text tempText = towerTexts[i];
+                tempText.gameObject.SetActive(false);
+            }
+        }
     }
 }
