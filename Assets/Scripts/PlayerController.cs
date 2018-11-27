@@ -10,22 +10,26 @@ public class PlayerController : MonoBehaviour
     public float angleMod = 20;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
+    public float invulTimeSec = 3;
+    public int damageFromShot = 20;
     public GameObject moveTarget;
+    public Text healthText;
     //public Text winText;
 
     private Rigidbody rb;
     private Vector3 startCoord;
-    private bool isJumping;
     private int health;
     private Vector3 m_Velocity = Vector3.zero;
     private float m_MovementSmoothing = .05f;
+    private bool isInvul = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         startCoord = transform.position;
-        //winText.text = "";
         health = 100;
+        UpdateHealth();
+        //winText.text = "";
     }
 
     private void Update()
@@ -45,9 +49,9 @@ public class PlayerController : MonoBehaviour
         Move(moveHorizontal * Time.fixedDeltaTime, moveVertical * Time.fixedDeltaTime);
 
         //Jumping Mechanic
-        if (Input.GetButtonDown(buttonName: "Jump") && !isJumping)
+        if (Input.GetButtonDown(buttonName: "Jump"))
         {
-            Jump();
+            //Jump();
         }
 
         if (rb.velocity.y < 0)
@@ -68,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
     void Move(float moveX, float moveZ)
     {
-        Vector3 targetVelocity = new Vector3(moveX, 0.0f, moveZ);
+        Vector3 targetVelocity = new Vector3(moveX, rb.velocity.y, moveZ);
         targetVelocity = moveTarget.transform.TransformVector(targetVelocity) * speed;
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
         //rb.AddForce(targetVelocity * speed);
@@ -77,17 +81,11 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         rb.AddForce((Vector3.up * jumpForce), ForceMode.Impulse);
-        isJumping = true;
-
-
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-        }
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -95,7 +93,32 @@ public class PlayerController : MonoBehaviour
         //if the player gets shot, take X damage
         if (other.gameObject.CompareTag("Shot"))
         {
+            Destroy(other.gameObject);
+            if (!isInvul)
+            {
+                AddHealth(damageFromShot);
+                InvulTime(invulTimeSec);
+            }
             
         }
+    }
+
+    void AddHealth(int healthMod)
+    {
+        health = health + healthMod;
+        InvulTime(invulTimeSec);
+        UpdateHealth();
+    }
+
+    void UpdateHealth()
+    {
+        healthText.text = "Health: " + health + "%";
+    }
+
+    IEnumerator InvulTime(float time)
+    {
+        isInvul = true;
+        yield return new WaitForSeconds(time);
+        isInvul = false;
     }
 }
