@@ -8,9 +8,15 @@ public class GameController : MonoBehaviour {
     public Text townHealthText;
     public Text interactText;
     public Text[] towerTexts;
+    public GameObject enemySpawner;
+    public GameObject enemy;
+    public int spawnWait;
+    public int enemyCount;
+    public int waveWait;
 
     private int townHealth = 100;
     private bool isDispTowerList = false;
+    private bool gameOver = false;
 
     // Use this for initialization
     void Start () {
@@ -23,12 +29,38 @@ public class GameController : MonoBehaviour {
             Text tempText = towerTexts[i];
             tempText.gameObject.SetActive(false);
         }
+        StartCoroutine (SpawnEnemies());
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    IEnumerator SpawnEnemies()
+    {
+        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            for (int i = 0; i < enemyCount; i++)
+            {
+                Vector3 spawnPosition = enemySpawner.transform.position;
+                Quaternion spawnRotation = Quaternion.identity;
+                Instantiate(enemy, spawnPosition, spawnRotation);
+                Debug.Log("Enemy Spawned");
+                yield return new WaitForSeconds(spawnWait);
+            }
+
+            if (gameOver)
+            {
+                //restartText.text = "Press 'R' for Restart";
+                //restart = true;
+                break;
+            }
+
+            yield return new WaitForSeconds(waveWait);
+        }
+    }
 
     void AddTownHealth(int healthMod)
     {
