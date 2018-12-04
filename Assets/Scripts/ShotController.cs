@@ -8,7 +8,7 @@ public class ShotController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 0.1f);
+        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 10f);
         int i = 0;
         while (i < hitColliders.Length)
         {
@@ -17,6 +17,8 @@ public class ShotController : MonoBehaviour {
             if( i == 0 )
             {
                 dist = tempDist;
+                temp.GetComponent<Tower>();
+                Debug.Log("Shot/Tower Acquired");
             }
             if (tempDist < dist)
             {
