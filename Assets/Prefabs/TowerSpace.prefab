@@ -119,9 +119,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1598929031928016}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.13, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.1499996, z: 0}
+  m_LocalScale: {x: 0.39999998, y: 1, z: 0.39999998}
   m_Children:
   - {fileID: 4274481775688304}
   - {fileID: 4466736988500478}
@@ -189,8 +189,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1796193961620296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.5724525, y: -12.95, z: -11.63}
-  m_LocalScale: {x: 0.39999998, y: 1, z: 0.39999998}
+  m_LocalPosition: {x: 7.5724525, y: -11.93, z: -16.33062}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4136238322126556}
   m_Father: {fileID: 0}
@@ -416,7 +416,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 10, z: 10}
+  m_Size: {x: 4, y: 10, z: 4}
   m_Center: {x: 0, y: -1, z: 0}
 --- !u!114 &114133699056996750
 MonoBehaviour:
@@ -431,4 +431,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactText: {fileID: 0}
   towers:
-  - {fileID: 1698474280978462, guid: c077ac713ce7dc14e873de9999c13ab8, type: 2}
+  - {fileID: 1379395910440870, guid: c077ac713ce7dc14e873de9999c13ab8, type: 2}

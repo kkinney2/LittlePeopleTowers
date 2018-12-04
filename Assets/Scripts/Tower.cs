@@ -6,6 +6,7 @@ public class Tower : MonoBehaviour {
 
     public int damage;
     public int health;
+    public GameObject range;
     public Transform shotSpawn;
     public GameObject shot;
     public float fireRate = 0.5f;
@@ -17,8 +18,23 @@ public class Tower : MonoBehaviour {
     // Use this for initialization
     void Start () {
         hasTarget = false;
-        health = 100;
-	}
+
+        if(this.gameObject.name == "Tower_Ranged")
+        {
+            health = 100;
+        }
+
+        if (this.gameObject.name == "")
+        {
+            health = 100;
+        }
+
+        if (this.gameObject.name == "")
+        {
+            health = 100;
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

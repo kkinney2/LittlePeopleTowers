@@ -10,7 +10,10 @@ public class TowerSpace : MonoBehaviour {
 
     private bool canInteract = false;
     private bool canBuild = false;
+    private bool hasBuilt = false;
     private GameController gameController;
+    private GameObject tempTower;
+    private Tower builtTower;
 
     private void Start()
     {
@@ -30,29 +33,50 @@ public class TowerSpace : MonoBehaviour {
         if (Input.GetKeyDown("e") && canInteract )
         {
             gameController.UpdateTowerListText();
-            canBuild = true;
+            if (!hasBuilt)
+            {
+                canBuild = true;
+            }
         }
+
         if (canBuild)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Instantiate(towers[0],this.transform.position, this.transform.rotation);
+                tempTower = towers[0];
+                builtTower = tempTower.GetComponent<Tower>();
+                Instantiate(tempTower ,this.transform.position, this.transform.rotation);
                 canBuild = false;
-                gameController.UpdateTowerListText();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                Instantiate(towers[1], this.transform.position, this.transform.rotation);
-                canBuild = false;
-                gameController.UpdateTowerListText();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                Instantiate(towers[2], this.transform.position, this.transform.rotation);
-                canBuild = false;
+                hasBuilt = true;
                 gameController.UpdateTowerListText();
             }
         }
+
+        if (canBuild)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                tempTower = towers[1];
+                builtTower = tempTower.GetComponent<Tower>();
+                Instantiate(tempTower, this.transform.position, this.transform.rotation);
+                canBuild = false;
+                hasBuilt = true;
+                gameController.UpdateTowerListText();
+            }
+        }
+
+        if (canBuild)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                tempTower = towers[2];
+                builtTower = tempTower.GetComponent<Tower>();
+                Instantiate(tempTower, this.transform.position, this.transform.rotation);
+                canBuild = false;
+                hasBuilt = true;
+                gameController.UpdateTowerListText();
+            }
+        }  
     }
 
 
@@ -62,12 +86,24 @@ public class TowerSpace : MonoBehaviour {
         gameController.UpdateInteractText(canInteract);
         if (canInteract)
         {
+            if (hasBuilt)
+            {
+                builtTower.range.gameObject.SetActive(true);
+            }
+            if (!hasBuilt)
+            {
+                canBuild = true;
+            }
             //tempChild.gameObject.SetActive(true);
         }
         else if (!canInteract)
         {
             //tempChild.gameObject.SetActive(false);
             canBuild = false;
+            if (hasBuilt)
+            {
+                builtTower.range.gameObject.SetActive(false);
+            }
         }
     }
 }

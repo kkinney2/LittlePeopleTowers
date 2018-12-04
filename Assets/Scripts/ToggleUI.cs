@@ -6,16 +6,6 @@ public class ToggleUI : MonoBehaviour {
 
     private TowerSpace tempTowerSpace;
 
-    private void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("TowerSpace"))
@@ -31,6 +21,7 @@ public class ToggleUI : MonoBehaviour {
         if (other.gameObject.CompareTag("TowerSpace"))
         {
             tempTowerSpace.ToggleUI();
+            Debug.Log("ToggleUI Exit");
         }
     }
 }
