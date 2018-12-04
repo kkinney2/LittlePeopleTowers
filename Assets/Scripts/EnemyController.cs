@@ -6,27 +6,30 @@ public class EnemyController : MonoBehaviour {
 
     public int damage;
     public int health;
-
+    public float speed = 100;
+    public GameObject moveTarget;
+    
     private Tower tempTower;
-    private Collider tempCollider;
+    private int moveTargetCount;
 
     // Use this for initialization
     void Start () {
         health = 100;
-        tempCollider = GetComponent<Collider>();
-        StartCoroutine(SpawnInvul());
+        moveTarget = GameObject.Find("moveTarget1");
+        moveTargetCount = 1;
+        if(moveTarget == null)
+        {
+            Debug.Log("Could not find moveTarget");
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        // The step size is equal to speed times frame time.
+        float step = speed * Time.deltaTime;
 
-    IEnumerator SpawnInvul()
-    {
-        tempCollider.enabled = false;
-        yield return new WaitForSeconds(1);
-        tempCollider.enabled = true;
+        // Move our position a step closer to the target.
+        transform.position = Vector3.MoveTowards(transform.position, moveTarget.transform.position, step);
     }
 
     void OnTriggerEnter(Collider other)
@@ -42,6 +45,11 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.CompareTag("Shot"))
         {
             Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("MoveTarget"))
+        {
+            moveTargetCount++;
+            moveTarget = GameObject.Find("moveTarget"+moveTargetCount);
         }
     }
 
