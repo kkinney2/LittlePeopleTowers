@@ -10,7 +10,6 @@ public class TowerSpace : MonoBehaviour {
 
     private bool canInteract = false;
     private bool canBuild = false;
-    private Transform tempChild;
     private GameController gameController;
 
     private void Start()
@@ -24,8 +23,6 @@ public class TowerSpace : MonoBehaviour {
         {
             Debug.Log("Cannot find 'GameController' script");
         }
-
-        tempChild = this.transform.GetChild(0);
     }
 
     // Update is called once per frame
@@ -41,16 +38,19 @@ public class TowerSpace : MonoBehaviour {
             {
                 Instantiate(towers[0],this.transform.position, this.transform.rotation);
                 canBuild = false;
+                gameController.UpdateTowerListText();
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 Instantiate(towers[1], this.transform.position, this.transform.rotation);
                 canBuild = false;
+                gameController.UpdateTowerListText();
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 Instantiate(towers[2], this.transform.position, this.transform.rotation);
                 canBuild = false;
+                gameController.UpdateTowerListText();
             }
         }
     }
@@ -62,11 +62,11 @@ public class TowerSpace : MonoBehaviour {
         gameController.UpdateInteractText(canInteract);
         if (canInteract)
         {
-            tempChild.gameObject.SetActive(true);
+            //tempChild.gameObject.SetActive(true);
         }
         else if (!canInteract)
         {
-            tempChild.gameObject.SetActive(false);
+            //tempChild.gameObject.SetActive(false);
             canBuild = false;
         }
     }

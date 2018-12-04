@@ -10,6 +10,6 @@ public class Mover : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rb = this.GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * speed;
+        rb.AddForce(transform.forward * speed);
     }
 }

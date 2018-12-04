@@ -52,5 +52,9 @@ public class EnemyController : MonoBehaviour {
             tempTower = other.GetComponent<Tower>();
             tempTower.ShotTarget(null);
         }
+        if (other.gameObject.CompareTag("PlayArea"))
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

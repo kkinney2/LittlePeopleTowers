@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
             for (int i = 0; i < enemyCount; i++)
             {
                 Vector3 spawnPosition = enemySpawner.transform.position;
-                Quaternion spawnRotation = Quaternion.identity;
+                Quaternion spawnRotation = enemySpawner.transform.rotation;
                 Instantiate(enemy, spawnPosition, spawnRotation);
                 Debug.Log("Enemy Spawned");
                 yield return new WaitForSeconds(spawnWait);
