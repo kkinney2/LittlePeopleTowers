@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tower : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class Tower : MonoBehaviour {
     public GameObject shot;
     public Transform shotSpawn;
     public float fireRate = 0.5f;
+    public Text damageText;
 
     private bool hasTarget;
     private GameObject target;
@@ -85,12 +87,18 @@ public class Tower : MonoBehaviour {
     public void SetDamage(int newDamage)
     {
         damage = newDamage;
+        UpdateDamage();
         Debug.Log("tower damage set: " + damage);
     }
 
     public int GetDamage()
     {
         return damage;
+    }
+
+    void UpdateDamage()
+    {
+        damageText.text = "Damage: " + GetDamage() + "";
     }
 
     public void EnemyHit()
