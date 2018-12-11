@@ -29,14 +29,14 @@ public class Tower : MonoBehaviour {
 	void Update () {
         if (hasTarget)
         {
-            this.transform.LookAt(target.transform);
+            var tempTrans = target.transform.position - Vector3.up * 0.5f; 
+            this.transform.LookAt(tempTrans);
             if (Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
                 GameObject tempShot = shot;
                 Instantiate(tempShot, this.shotSpawn.position, this.shotSpawn.rotation);
 
-                GameObject shotControllerObject = GameObject.FindWithTag("GameController");
                 if (tempShot != null)
                 {
                     shotController = tempShot.GetComponent<ShotController>();
@@ -45,8 +45,8 @@ public class Tower : MonoBehaviour {
                 {
                     Debug.Log("Cannot find 'ShotController' script");
                 }
-
-                shotController.SetDamage(this.GetDamage());
+                shotController.SetTower(this.gameObject);
+                //shotController.SetDamage(this.GetDamage());
                 Debug.Log("Damage: " + damage);
             }
         }
@@ -91,5 +91,10 @@ public class Tower : MonoBehaviour {
     public int GetDamage()
     {
         return damage;
+    }
+
+    public void EnemyHit()
+    {
+
     }
 }

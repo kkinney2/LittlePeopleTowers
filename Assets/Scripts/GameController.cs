@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour {
                 enemyController = enemy.GetComponent<EnemyController>();
                 enemyController.SetHealth(roundCount * 2 + 100);
                 enemyController.SetSpeed(roundCount * 2 + 2);
+                enemyController.SetDamage(roundCount * 2 + 2);
                 Instantiate(enemy, spawnPosition, spawnRotation);
                 //Debug.Log("Enemy Spawned");
                 yield return new WaitForSeconds(spawnWait);
@@ -68,7 +69,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void AddTownHealth(int healthMod)
+    public void AddTownHealth(int healthMod)
     {
         townHealth = townHealth + healthMod;
         UpdateTownHealth();
