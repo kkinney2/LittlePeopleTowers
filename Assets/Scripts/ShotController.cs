@@ -4,34 +4,16 @@ using UnityEngine;
 
 public class ShotController : MonoBehaviour {
 
-    private float dist;
+    private int damage;
 
-	// Use this for initialization
-	void Start () {
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 10f);
-        int i = 0;
-        while (i < hitColliders.Length)
-        {
-            Collider temp = hitColliders[i];
-            float tempDist = Vector3.Distance(temp.transform.position, transform.position);
-            if( i == 0 )
-            {
-                dist = tempDist;
-                temp.GetComponent<Tower>();
-                Debug.Log("Shot/Tower Acquired");
-            }
-            if (tempDist < dist)
-            {
-                dist = tempDist;
-                temp.GetComponent<Tower>();
-                Debug.Log("Shot/Tower Acquired");
-            }
-            i++;
-        }
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+        Debug.Log("Shot Damage Set: " + damage);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public int GetDamage()
+    {
+        return damage;
+    }
 }

@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-    public int damage;
-    public int health;
     public float speed = 100;
     public GameObject moveTarget;
     
     private Tower tempTower;
     private int moveTargetCount;
+    private int damage;
+    private int health;
+    private int currentHealth;
 
     // Use this for initialization
     void Start () {
         health = 100;
+        currentHealth = health;
+
         moveTarget = GameObject.Find("moveTarget1");
         moveTargetCount = 1;
         if(moveTarget == null)
@@ -30,6 +33,11 @@ public class EnemyController : MonoBehaviour {
 
         // Move our position a step closer to the target.
         transform.position = Vector3.MoveTowards(transform.position, moveTarget.transform.position, step);
+
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -44,8 +52,12 @@ public class EnemyController : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Shot"))
         {
+            ShotController shotController = other.GetComponent<ShotController>();
+            this.SetHealth(currentHealth - shotController.GetDamage());
+            //Debug.Log("EnemyHealth: " + currentHealth);
             Destroy(other.gameObject);
         }
+
         if (other.gameObject.CompareTag("MoveTarget"))
         {
             moveTargetCount++;
@@ -64,5 +76,26 @@ public class EnemyController : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void SetHealth(int newHealth)
+    {
+        health = newHealth;
+    }
+
+    public float GetHealth()
+    {
+        float tempHealth = currentHealth / health;
+        return tempHealth;
+    }
+
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+    }
+
+    public void SetSpeed(int newSpeed)
+    {
+        speed = newSpeed;
     }
 }

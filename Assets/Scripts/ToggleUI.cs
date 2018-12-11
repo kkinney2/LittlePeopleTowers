@@ -12,7 +12,7 @@ public class ToggleUI : MonoBehaviour {
         {
             tempTowerSpace = other.GetComponent<TowerSpace>();
             tempTowerSpace.ToggleUI();
-            Debug.Log("ToggleUI Enter");
+            //Debug.Log("ToggleUI Enter");
         }
     }
 
@@ -21,7 +21,7 @@ public class ToggleUI : MonoBehaviour {
         if (other.gameObject.CompareTag("TowerSpace"))
         {
             tempTowerSpace.ToggleUI();
-            Debug.Log("ToggleUI Exit");
+            //Debug.Log("ToggleUI Exit");
         }
     }
 }

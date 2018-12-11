@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         startCoord = transform.position;
         health = 100;
-        UpdateHealth();
+        //UpdateHealth();
         //winText.text = "";
     }
 

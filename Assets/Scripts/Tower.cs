@@ -4,47 +4,50 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
-    public int damage;
-    public int health;
     public GameObject range;
-    public Transform shotSpawn;
     public GameObject shot;
+    public Transform shotSpawn;
     public float fireRate = 0.5f;
 
     private bool hasTarget;
     private GameObject target;
     private float nextFire = 0.0f;
+    private int damage;
+    private int health;
+    private int currentHealth;
+    private ShotController shotController;
 
     // Use this for initialization
     void Start () {
         hasTarget = false;
 
-        if(this.gameObject.name == "Tower_Ranged")
-        {
-            health = 100;
-        }
-
-        if (this.gameObject.name == "")
-        {
-            health = 100;
-        }
-
-        if (this.gameObject.name == "")
-        {
-            health = 100;
-        }
-
+        health = 100;
+        currentHealth = health;
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (hasTarget)
         {
-            transform.LookAt(target.transform);
+            this.transform.LookAt(target.transform);
             if (Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
-                Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+                GameObject tempShot = shot;
+                Instantiate(tempShot, this.shotSpawn.position, this.shotSpawn.rotation);
+
+                GameObject shotControllerObject = GameObject.FindWithTag("GameController");
+                if (tempShot != null)
+                {
+                    shotController = tempShot.GetComponent<ShotController>();
+                }
+                if (shotController == null)
+                {
+                    Debug.Log("Cannot find 'ShotController' script");
+                }
+
+                shotController.SetDamage(this.GetDamage());
+                Debug.Log("Damage: " + damage);
             }
         }
 	}
@@ -61,5 +64,32 @@ public class Tower : MonoBehaviour {
         {
             hasTarget = false;
         }
+    }
+
+    public void Range(bool dispRange)
+    {
+        range.gameObject.SetActive(dispRange);
+    }
+
+    public void SetHealth(int newHealth)
+    {
+        health = newHealth;
+    }
+
+    public float GetHealth()
+    {
+        float tempHealth = currentHealth / health;
+        return tempHealth;
+    }
+
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+        Debug.Log("tower damage set: " + damage);
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 }

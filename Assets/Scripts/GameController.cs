@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
     private int townHealth = 100;
     private bool isDispTowerList = false;
     private bool gameOver = false;
+    private EnemyController enemyController;
 
     // Use this for initialization
     void Start () {
@@ -42,10 +43,14 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(1);
         while (true)
         {
+            int roundCount = 0;
             for (int i = 0; i < enemyCount; i++)
             {
                 Vector3 spawnPosition = enemySpawner.transform.position;
                 Quaternion spawnRotation = enemySpawner.transform.rotation;
+                enemyController = enemy.GetComponent<EnemyController>();
+                enemyController.SetHealth(roundCount * 2 + 100);
+                enemyController.SetSpeed(roundCount * 2 + 2);
                 Instantiate(enemy, spawnPosition, spawnRotation);
                 //Debug.Log("Enemy Spawned");
                 yield return new WaitForSeconds(spawnWait);
@@ -59,6 +64,7 @@ public class GameController : MonoBehaviour {
             }
 
             yield return new WaitForSeconds(waveWait);
+            roundCount++;
         }
     }
 

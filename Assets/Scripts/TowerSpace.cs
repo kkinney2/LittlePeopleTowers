@@ -44,8 +44,9 @@ public class TowerSpace : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 tempTower = towers[0];
-                builtTower = tempTower.GetComponent<Tower>();
                 Instantiate(tempTower ,this.transform.position, this.transform.rotation);
+                builtTower = tempTower.GetComponent<Tower>();
+                builtTower.SetDamage(50);
                 canBuild = false;
                 hasBuilt = true;
                 gameController.UpdateTowerListText();
@@ -58,6 +59,7 @@ public class TowerSpace : MonoBehaviour {
             {
                 tempTower = towers[1];
                 builtTower = tempTower.GetComponent<Tower>();
+                builtTower.SetDamage(0);
                 Instantiate(tempTower, this.transform.position, this.transform.rotation);
                 canBuild = false;
                 hasBuilt = true;
@@ -71,6 +73,7 @@ public class TowerSpace : MonoBehaviour {
             {
                 tempTower = towers[2];
                 builtTower = tempTower.GetComponent<Tower>();
+                builtTower.SetDamage(0);
                 Instantiate(tempTower, this.transform.position, this.transform.rotation);
                 canBuild = false;
                 hasBuilt = true;
@@ -88,11 +91,11 @@ public class TowerSpace : MonoBehaviour {
         {
             if (hasBuilt)
             {
-                builtTower.range.gameObject.SetActive(true);
+                builtTower.Range(true);
             }
             if (!hasBuilt)
             {
-                canBuild = true;
+                //canBuild = true;
             }
             //tempChild.gameObject.SetActive(true);
         }
@@ -102,7 +105,7 @@ public class TowerSpace : MonoBehaviour {
             canBuild = false;
             if (hasBuilt)
             {
-                builtTower.range.gameObject.SetActive(false);
+                builtTower.Range(false);
             }
         }
     }
