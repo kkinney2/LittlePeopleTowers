@@ -91,7 +91,7 @@ public class TowerSpace : MonoBehaviour {
         {
             if (hasBuilt)
             {
-                builtTower.Range(true);
+                //builtTower.Range(true);
             }
             if (!hasBuilt)
             {
