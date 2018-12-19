@@ -8,12 +8,13 @@ public class Tower : MonoBehaviour {
     public GameObject range;
     public GameObject shot;
     public Transform shotSpawn;
-    public float fireRate = 0.5f;
     public Text damageText;
 
     private bool hasTarget;
     private GameObject target;
     private float nextFire = 0.0f;
+    private float fireRate = 1.5f;
+    private float fireRateStart = 1.5f;
     private float scaleUpCap;
     private float shotScale = 1;
     private int damage;
@@ -25,13 +26,12 @@ public class Tower : MonoBehaviour {
     private int searchRadius;
     private ShotController shotController;
 
-    // Use this for initialization
     void Start () {
         hasTarget = false;
         SetHealth(100);
         numShotsHit = 0;
         totalShotsHit = 0;
-        scaleUpCap = 5;
+        scaleUpCap = 3;
         level = 1;
         searchRadius = 10;
     }
@@ -54,17 +54,17 @@ public class Tower : MonoBehaviour {
 
         if (hasTarget || target != null)
         {
-            var tempTrans = target.transform.position - Vector3.up * 0.5f; 
+            var tempTrans = new Vector3 (target.transform.position.x, target.transform.position.y - 0.675f,target.transform.position.z); 
             this.transform.LookAt(tempTrans);
             if (Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
                 GameObject tempShot = shot;
-                GameObject tempShot2 = Instantiate(tempShot, this.shotSpawn.position, this.shotSpawn.rotation);
+                tempShot = Instantiate(tempShot, this.shotSpawn.position, this.shotSpawn.rotation);
 
                 if (tempShot != null)
                 {
-                    shotController = tempShot2.GetComponent<ShotController>();
+                    shotController = tempShot.GetComponent<ShotController>();
                 }
                 if (shotController == null)
                 {
@@ -82,21 +82,34 @@ public class Tower : MonoBehaviour {
             level++;
             numShotsHit = 0;
             totalShotsHit++;
-            scaleUpCap = scaleUpCap * (level / 2);
+            scaleUpCap = 3 * level;
             StartCoroutine(ScaleUp());
         }
     }
 
     IEnumerator ScaleUp()
     {
-        Vector3 currentScale = this.transform.localScale;
-        Vector3 tempScale = new Vector3(0.1f, 0.1f, 0.1f);
-        this.transform.localScale += (tempScale * level);
-        yield return new WaitForSeconds(0.25f);
-        this.transform.localScale = currentScale;
-        yield return new WaitForSeconds(0.25f);
-        this.transform.localScale += (tempScale * level);
+        if(this.transform.localScale.x <= 10)
+        {
+            Vector3 currentScale = this.transform.localScale;
+            Vector3 tempScale = new Vector3(0.1f, 0.1f, 0.1f);
+            this.transform.localScale += (tempScale * level);
+            yield return new WaitForSeconds(0.25f);
+            this.transform.localScale = currentScale;
+            yield return new WaitForSeconds(0.25f);
+            this.transform.localScale += (tempScale * level);
+        }
         shotScale = 1 + 0.09f * level;
+        if(shotScale > 10)
+        {
+            shotScale = 10;
+        }
+        fireRate = fireRateStart - (level * 0.05f);
+        if(fireRate < 0.05f)
+        {
+            fireRate = 0.05f;
+        }
+        SetDamage(30 + 5 * level * level);
     }
     
     public void ShotTarget(GameObject tempTarget)

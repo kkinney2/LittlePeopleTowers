@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour {
     public Text enemyHealthText;
     
     private Tower tempTower;
+    private float speedStart = 4;
     private int moveTargetCount;
     private int damage = 5;
     private int health = -1;
@@ -18,8 +19,6 @@ public class EnemyController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        SetHealth(100);
-        SetDamage(damage);
         UpdateHealth();
 
         moveTarget = GameObject.Find("moveTarget1");
@@ -42,7 +41,7 @@ public class EnemyController : MonoBehaviour {
 
     private void Update()
     {
-        speed = 2 + speed * (gameController.GetWave() / 2);
+        speed = 2 + speedStart * ((float)gameController.GetWave() / 4);
         if (currentHealth <= 0)
         {
             Destroy(this.gameObject);

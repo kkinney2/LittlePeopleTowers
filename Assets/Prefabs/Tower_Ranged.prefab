@@ -353,7 +353,6 @@ MonoBehaviour:
   range: {fileID: 0}
   shot: {fileID: 1296889599770314, guid: f12d312be4797b64598c39f8a984ecb2, type: 2}
   shotSpawn: {fileID: 4916729199351308}
-  fireRate: 0.5
   damageText: {fileID: 114654839018674100}
 --- !u!114 &114314078051838200
 MonoBehaviour:

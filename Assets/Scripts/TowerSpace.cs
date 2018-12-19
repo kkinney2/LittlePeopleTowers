@@ -30,7 +30,7 @@ public class TowerSpace : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKeyDown("e") && canInteract )
+        if (Input.GetKeyDown("e") && canInteract && gameController.GetTowersLeft() > 0)
         {
             gameController.UpdateTowerListText();
             if (!hasBuilt)
@@ -39,47 +39,20 @@ public class TowerSpace : MonoBehaviour {
             }
         }
 
-        if (canBuild)
+        if (canBuild && gameController.GetTowersLeft() > 0)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 tempTower = towers[0];
                 GameObject tempTower2 = Instantiate(tempTower ,this.transform.position, this.transform.rotation) as GameObject;
                 builtTower = tempTower2.GetComponent<Tower>();
-                builtTower.SetDamage(50);
+                builtTower.SetDamage(30);
                 canBuild = false;
                 hasBuilt = true;
                 gameController.UpdateTowerListText();
+                gameController.AddTowersLeft(-1);
             }
         }
-
-        if (canBuild)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                tempTower = towers[1];
-                Instantiate(tempTower, this.transform.position, this.transform.rotation);
-                builtTower = tempTower.GetComponent<Tower>();
-                builtTower.SetDamage(0);
-                canBuild = false;
-                hasBuilt = true;
-                gameController.UpdateTowerListText();
-            }
-        }
-
-        if (canBuild)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                tempTower = towers[2];
-                builtTower = tempTower.GetComponent<Tower>();
-                builtTower.SetDamage(0);
-                Instantiate(tempTower, this.transform.position, this.transform.rotation);
-                canBuild = false;
-                hasBuilt = true;
-                gameController.UpdateTowerListText();
-            }
-        }  
     }
 
 
@@ -105,7 +78,7 @@ public class TowerSpace : MonoBehaviour {
             canBuild = false;
             if (hasBuilt)
             {
-                builtTower.Range(false);
+                //builtTower.Range(false);
             }
         }
     }
